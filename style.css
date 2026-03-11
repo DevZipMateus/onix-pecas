@@ -289,7 +289,6 @@ header.scrolled {
   width: 150px;
   height: auto;
   margin: 0 auto 28px;
-  filter: drop-shadow(0 0 24px rgba(200, 23, 30, 0.5));
 }
 
 .hero-content h1 {
