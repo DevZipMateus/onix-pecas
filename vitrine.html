@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onix Peças Automotivas</title>
+  <meta name="description" content="Vitrine digital Onix Peças Automotivas — explore nosso catálogo completo de peças para refrigeração automotiva.">
+
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    /* ===== HEADER ===== */
+    .vitrine-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: #1A1A1A;
+      border-bottom: 3px solid #C8171E;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+    }
+
+    .vitrine-header-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .vitrine-logo-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .vitrine-logo-link img {
+      height: 52px;
+      width: auto;
+      display: block;
+    }
+
+    .vitrine-brand {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .vitrine-nav ul {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .vitrine-nav ul li a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: color 0.3s, background 0.3s;
+    }
+
+    .vitrine-nav ul li a:hover {
+      color: #fff;
+      background: rgba(200,23,30,0.25);
+    }
+
+    .vitrine-nav ul li a.ativo {
+      color: #fff;
+      background: rgba(200,23,30,0.3);
+    }
+
+    /* Hamburger */
+    .vitrine-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 38px;
+      height: 38px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+    }
+
+    .vitrine-hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+
+    .vitrine-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .vitrine-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .vitrine-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav */
+    .vitrine-mobile-nav {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      background: #2C2C2C;
+      z-index: 850;
+      transform: translateY(-110%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      border-bottom: 3px solid #C8171E;
+    }
+
+    .vitrine-mobile-nav.open { transform: translateY(0); }
+
+    .vitrine-mobile-nav ul { padding: 8px 0; list-style: none; }
+
+    .vitrine-mobile-nav ul li a {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .vitrine-mobile-nav ul li a:hover { background: #C8171E; color: #fff; }
+
+    /* ===== IFRAME ===== */
+    #vitrineFrame {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 80px - 63px);
+      border: none;
+      display: block;
+    }
+
+    /* ===== BADGE MONTESITE ===== */
+    #montesite-footer-badge {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 800;
+    }
+
+    /* ===== RESPONSIVO ===== */
+    @media (max-width: 1023px) {
+      .vitrine-nav { display: none; }
+      .vitrine-hamburger { display: flex; }
+    }
+
+    @media (max-width: 768px) {
+      .vitrine-header { height: 64px; }
+
+      .vitrine-logo-link img { height: 42px; }
+
+      .vitrine-brand { font-size: 0.95rem; }
+
+      .vitrine-mobile-nav { top: 64px; }
+
+      #vitrineFrame {
+        top: 64px;
+        height: calc(100vh - 64px - 63px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .vitrine-header { height: 58px; }
+
+      .vitrine-logo-link img { height: 36px; }
+
+      .vitrine-brand { display: none; }
+
+      .vitrine-mobile-nav { top: 58px; }
+
+      #vitrineFrame {
+        top: 58px;
+        height: calc(100vh - 58px - 63px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="vitrine-header">
+    <div class="vitrine-header-inner">
+      <a href="index.html" class="vitrine-logo-link" aria-label="Voltar ao site Onix Peças">
+        <img src="images/logo.png" alt="Logo Onix Peças Automotivas">
+        <span class="vitrine-brand">Onix Peças</span>
+      </a>
+
+      <nav class="vitrine-nav" aria-label="Navegação">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="index.html#sobre">Sobre</a></li>
+          <li><a href="index.html#produtos">Produtos</a></li>
+          <li><a href="vitrine.html" class="ativo">Vitrine</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <button class="vitrine-hamburger" id="vitrineHamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile nav -->
+  <nav class="vitrine-mobile-nav" id="vitrineMobileNav" aria-hidden="true">
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="index.html#sobre">Sobre</a></li>
+      <li><a href="index.html#produtos">Produtos</a></li>
+      <li><a href="vitrine.html">Vitrine</a></li>
+      <li><a href="index.html#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- IFRAME VITRINE -->
+  <iframe
+    id="vitrineFrame"
+    src="https://andersononixpecascombr.egestor.com.br/vitrine/"
+    title="Vitrine digital Onix Peças Automotivas"
+    allowfullscreen
+    loading="lazy"
+  ></iframe>
+
+  <!-- Rodapé MonteSite -->
+  <div id="montesite-footer-badge"></div>
+  <script src="https://vaabpicspdbolvutnscp.supabase.co/functions/v1/get-footer-iframe"></script>
+
+  <script>
+    'use strict';
+
+    // Hamburger
+    const ham    = document.getElementById('vitrineHamburger');
+    const mobNav = document.getElementById('vitrineMobileNav');
+
+    ham.addEventListener('click', () => {
+      const isOpen = mobNav.classList.contains('open');
+      mobNav.classList.toggle('open', !isOpen);
+      ham.classList.toggle('open', !isOpen);
+      ham.setAttribute('aria-expanded', String(!isOpen));
+      mobNav.setAttribute('aria-hidden', String(isOpen));
+    });
+
+    document.querySelectorAll('.vitrine-mobile-nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        mobNav.classList.remove('open');
+        ham.classList.remove('open');
+        ham.setAttribute('aria-expanded', 'false');
+        mobNav.setAttribute('aria-hidden', 'true');
+      });
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobNav.classList.contains('open')) {
+        mobNav.classList.remove('open');
+        ham.classList.remove('open');
+        ham.setAttribute('aria-expanded', 'false');
+        ham.focus();
+      }
+    });
+
+    // Altura dinâmica do iframe (fallback para JS caso CSS calc não seja suficiente)
+    function ajustaIframe() {
+      const frame  = document.getElementById('vitrineFrame');
+      const header = document.querySelector('.vitrine-header');
+      const badge  = document.getElementById('montesite-footer-badge');
+      const headerH = header ? header.offsetHeight : 80;
+      const badgeH  = badge  ? badge.offsetHeight  : 63;
+      frame.style.height = (window.innerHeight - headerH - badgeH) + 'px';
+    }
+
+    window.addEventListener('resize', ajustaIframe, { passive: true });
+    // Aguarda badge carregar para recalcular
+    setTimeout(ajustaIframe, 1200);
+  </script>
+</body>
+</html>
