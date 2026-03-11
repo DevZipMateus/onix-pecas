@@ -840,6 +840,8 @@ header.scrolled {
 .footer-logo {
   height: 72px;
   width: auto;
+  align-self: flex-start;
+  object-fit: contain;
 }
 
 .footer-brand p {
