@@ -93,43 +93,7 @@ function highlightActiveNav() {
 
 
 /* =============================================
-   5. FLOCOS DE NEVE NO HERO
-   ============================================= */
-function createSnowflakes() {
-  const hero = document.querySelector('.hero');
-  if (!hero) return;
-
-  const chars  = ['❄', '❅', '❆', '✦', '✧', '❄', '❅'];
-  const isMobile = window.innerWidth <= 768;
-  const count  = isMobile ? 9 : 18;
-
-  for (let i = 0; i < count; i++) {
-    const flake = document.createElement('span');
-    flake.className   = 'snowflake';
-    flake.textContent = chars[Math.floor(Math.random() * chars.length)];
-    flake.setAttribute('aria-hidden', 'true');
-
-    const size     = (Math.random() * 1.4 + 0.5).toFixed(1);
-    const left     = (Math.random() * 98).toFixed(1);
-    const duration = (Math.random() * 14 + 9).toFixed(1);
-    const delay    = (Math.random() * 12).toFixed(1);
-    const opacity  = (Math.random() * 0.18 + 0.06).toFixed(2);
-
-    flake.style.cssText = `
-      left: ${left}%;
-      font-size: ${size}rem;
-      animation-duration: ${duration}s;
-      animation-delay: -${delay}s;
-      opacity: ${opacity};
-    `;
-
-    hero.appendChild(flake);
-  }
-}
-
-
-/* =============================================
-   6. EFEITO TYPING NO HERO H2
+   5. EFEITO TYPING NO HERO H2
    ============================================= */
 function typeWriter(element, startDelay = 700) {
   if (!element) return;
@@ -305,7 +269,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
    ============================================= */
 document.addEventListener('DOMContentLoaded', () => {
   onScroll();
-  createSnowflakes();
   animateHeroLine();
   initRipple();
   initCardTilt();

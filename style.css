@@ -1003,24 +1003,6 @@ header.scrolled {
   pointer-events: none;
 }
 
-/* ===== FLOCOS DE NEVE (HERO) ===== */
-.snowflake {
-  position: absolute;
-  color: rgba(255, 255, 255, 0.18);
-  animation: flocos-cair linear infinite;
-  pointer-events: none;
-  z-index: 0;
-  user-select: none;
-  will-change: transform;
-}
-
-@keyframes flocos-cair {
-  0%   { transform: translateY(-80px) rotate(0deg);    opacity: 0; }
-  8%   { opacity: 1; }
-  92%  { opacity: 0.4; }
-  100% { transform: translateY(105vh) rotate(600deg);  opacity: 0; }
-}
-
 /* ===== SHIMMER NOS CARDS DE PRODUTO ===== */
 .produto-card {
   position: relative;
