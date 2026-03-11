@@ -239,7 +239,10 @@ header.scrolled {
 .hero {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(160deg, #0d0d0d 0%, #1a0305 50%, #0d0d0d 100%);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.80), rgba(0, 0, 0, 0.80)),
+    url('images/bg-hero.jpg') center / cover no-repeat;
+  background-attachment: scroll, fixed;
   display: flex;
   align-items: center;
   padding-top: var(--header-height);
@@ -457,7 +460,10 @@ header.scrolled {
 
 /* ===== SOBRE ===== */
 .sobre-section {
-  background: var(--branco);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.93), rgba(255, 255, 255, 0.93)),
+    url('images/bg-sobre.jpg') center / cover no-repeat;
+  background-attachment: scroll, fixed;
 }
 
 .sobre-grid {
@@ -560,7 +566,10 @@ header.scrolled {
 
 /* ===== PRODUTOS ===== */
 .produtos-section {
-  background: var(--cinza-claro);
+  background:
+    linear-gradient(rgba(245, 245, 245, 0.91), rgba(245, 245, 245, 0.91)),
+    url('images/bg-produtos.jpg') center / cover no-repeat;
+  background-attachment: scroll, fixed;
 }
 
 .produtos-grid {
@@ -642,7 +651,10 @@ header.scrolled {
 
 /* ===== DIFERENCIAIS ===== */
 .diferenciais-section {
-  background: var(--vermelho);
+  background:
+    linear-gradient(rgba(200, 23, 30, 0.90), rgba(200, 23, 30, 0.90)),
+    url('images/bg-diferenciais.jpg') center / cover no-repeat;
+  background-attachment: scroll, fixed;
 }
 
 .diferenciais-grid {
@@ -978,6 +990,16 @@ header.scrolled {
    ========================================== */
 
 /* ===== TABLET LANDSCAPE (max 1100px) ===== */
+@media (max-width: 1023px) {
+  /* Desativa parallax em mobile/tablet — bug no iOS/Android */
+  .hero,
+  .sobre-section,
+  .produtos-section,
+  .diferenciais-section {
+    background-attachment: scroll, scroll;
+  }
+}
+
 @media (max-width: 1100px) {
   .produtos-grid {
     grid-template-columns: repeat(3, 1fr);
