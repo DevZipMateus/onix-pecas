@@ -986,6 +986,322 @@ header.scrolled {
 
 
 /* ==========================================
+   EFEITOS UI/UX
+   ========================================== */
+
+/* ===== BARRA DE PROGRESSO DE SCROLL ===== */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--vermelho-escuro), var(--vermelho-claro), #ff6b6b);
+  z-index: 1001;
+  box-shadow: 0 0 10px rgba(200, 23, 30, 0.7);
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+/* ===== FLOCOS DE NEVE (HERO) ===== */
+.snowflake {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.18);
+  animation: flocos-cair linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
+  will-change: transform;
+}
+
+@keyframes flocos-cair {
+  0%   { transform: translateY(-80px) rotate(0deg);    opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 0.4; }
+  100% { transform: translateY(105vh) rotate(600deg);  opacity: 0; }
+}
+
+/* ===== SHIMMER NOS CARDS DE PRODUTO ===== */
+.produto-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.produto-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.produto-card:hover::after {
+  left: 160%;
+}
+
+/* ===== RIPPLE NOS BOTÕES ===== */
+.btn,
+.btn-whatsapp-contato {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-anim 0.65s linear forwards;
+  background: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes ripple-anim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ===== WHATSAPP PULSE GLOW ===== */
+.whatsapp-float::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25D366;
+  animation: wa-pulse 2.4s ease-out infinite;
+  z-index: -1;
+}
+
+@keyframes wa-pulse {
+  0%   { transform: scale(1);    opacity: 0.65; }
+  100% { transform: scale(1.85); opacity: 0; }
+}
+
+/* ===== TYPING CURSOR ===== */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--vermelho-claro);
+  margin-left: 3px;
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: cursor-blink 0.75s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ===== HERO STATS ===== */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 52px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 22px 40px;
+  backdrop-filter: blur(8px);
+  animation: stats-enter 0.8s ease 1.5s both;
+}
+
+@keyframes stats-enter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 100px;
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.18);
+  flex-shrink: 0;
+  margin: 0 24px;
+}
+
+.stat-num-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+  line-height: 1;
+}
+
+.stat-num {
+  font-family: var(--font-titulo);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  color: var(--vermelho-claro);
+  line-height: 1;
+  display: inline-block;
+  min-width: 1ch;
+}
+
+.stat-plus {
+  font-family: var(--font-titulo);
+  font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+  font-weight: 900;
+  color: var(--vermelho-claro);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: var(--font-titulo);
+  font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+/* ===== LINHA ANIMADA NO HERO H1 ===== */
+.hero-content h1 {
+  position: relative;
+}
+
+.hero-content h1::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--vermelho), var(--vermelho-claro));
+  margin: 14px auto 0;
+  border-radius: 2px;
+  transition: width 1s ease 0.4s;
+}
+
+.hero-content h1.linha-animada::after {
+  width: 90px;
+}
+
+/* ===== GLOW NOS ÍCONES AO HOVER (DIFERENCIAIS) ===== */
+.dif-card:hover .dif-icon {
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.3);
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* ===== SECTION TAG GLOW ===== */
+.section-tag {
+  animation: tag-glow 3.5s ease-in-out infinite;
+}
+
+@keyframes tag-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 23, 30, 0); }
+  50%       { box-shadow: 0 0 14px 4px rgba(200, 23, 30, 0.18); }
+}
+
+/* ===== REVEAL DIRECIONAL ===== */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(36px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal-left.visible,
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== MVV CARD HOVER GLASS ===== */
+.mvv-card {
+  transition: transform var(--transicao), box-shadow var(--transicao), background var(--transicao);
+}
+
+.mvv-card:hover {
+  background: var(--branco);
+  box-shadow: 0 16px 48px rgba(200, 23, 30, 0.12);
+}
+
+/* ===== PRODUTO CARD 3D TILT ===== */
+.produto-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ===== BADGE ITEM HOVER ===== */
+.badge-item {
+  transition: transform var(--transicao), box-shadow var(--transicao), border-color var(--transicao);
+}
+
+.badge-item:hover {
+  transform: translateX(6px);
+  border-color: var(--vermelho);
+  box-shadow: 0 4px 16px rgba(200, 23, 30, 0.12);
+}
+
+/* ===== FOOTER SOCIAL SPIN ===== */
+.footer-social a:hover i {
+  animation: icon-spin 0.4s ease;
+}
+
+@keyframes icon-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ===== HERO STATS RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .hero-stats {
+    padding: 18px 20px;
+    margin-top: 36px;
+    gap: 0;
+  }
+
+  .hero-stat-divider {
+    margin: 0 16px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-stats {
+    flex-direction: column;
+    padding: 20px 16px;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .hero-stat-divider {
+    width: 40px;
+    height: 1px;
+    margin: 0;
+  }
+}
+
+/* ==========================================
    RESPONSIVIDADE — Cobertura Completa
    4K → Full HD → HD → Laptop → Tablet → Mobile
    ========================================== */

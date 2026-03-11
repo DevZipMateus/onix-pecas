@@ -1,29 +1,45 @@
 /* ==========================================
    ONIX PEÇAS AUTOMOTIVAS — JavaScript
+   Efeitos UI/UX + Interatividade
    ========================================== */
 
 'use strict';
 
-// ===== HEADER COM SOMBRA AO ROLAR =====
+/* =============================================
+   1. BARRA DE PROGRESSO DE SCROLL
+   ============================================= */
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress-bar';
+progressBar.setAttribute('aria-hidden', 'true');
+document.body.prepend(progressBar);
+
+function updateProgress() {
+  const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = scrollTotal > 0 ? (window.scrollY / scrollTotal) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}
+
+
+/* =============================================
+   2. HEADER — SOMBRA E ESTADO AO ROLAR
+   ============================================= */
 const header = document.getElementById('header');
 
 function onScroll() {
-  if (window.scrollY > 20) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
+  header.classList.toggle('scrolled', window.scrollY > 20);
+  updateProgress();
   highlightActiveNav();
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
 
 
-// ===== MENU HAMBURGER =====
+/* =============================================
+   3. MENU HAMBURGER
+   ============================================= */
 const hamburger = document.getElementById('hamburger');
-const mobileNav = document.getElementById('mobileNav');
-const overlay = document.getElementById('overlay');
-const mobileLinks = document.querySelectorAll('.mobile-link');
+const mobileNav  = document.getElementById('mobileNav');
+const overlay    = document.getElementById('overlay');
 
 function openMenu() {
   mobileNav.classList.add('open');
@@ -42,18 +58,13 @@ function closeMenu() {
 }
 
 hamburger.addEventListener('click', () => {
-  const isOpen = mobileNav.classList.contains('open');
-  isOpen ? closeMenu() : openMenu();
+  mobileNav.classList.contains('open') ? closeMenu() : openMenu();
 });
 
 overlay.addEventListener('click', closeMenu);
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
 
-mobileLinks.forEach(link => {
-  link.addEventListener('click', closeMenu);
-});
-
-// Fechar menu com Escape
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
     closeMenu();
     hamburger.focus();
@@ -61,78 +72,247 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-// ===== ACTIVE NAV LINK AO ROLAR =====
+/* =============================================
+   4. NAV LINK ATIVO AO ROLAR
+   ============================================= */
 const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.desktop-nav ul li a');
+const navLinks  = document.querySelectorAll('.desktop-nav ul li a');
 
 function highlightActiveNav() {
-  const scrollY = window.scrollY + (window.innerHeight * 0.35);
-
+  const scrollY = window.scrollY + window.innerHeight * 0.35;
   sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.offsetHeight;
-    const sectionId = section.getAttribute('id');
-
-    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+    const top = section.offsetTop;
+    const id  = section.getAttribute('id');
+    if (scrollY >= top && scrollY < top + section.offsetHeight) {
       navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${sectionId}`) {
-          link.classList.add('active');
-        }
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
       });
     }
   });
 }
 
 
-// ===== ANIMAÇÃO REVEAL AO SCROLL =====
-const revealElements = document.querySelectorAll('.reveal');
+/* =============================================
+   5. FLOCOS DE NEVE NO HERO
+   ============================================= */
+function createSnowflakes() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      // Atraso leve baseado na posição no grid
-      const siblings = Array.from(entry.target.parentElement.children);
-      const position = siblings.indexOf(entry.target);
-      const delay = Math.min(position * 70, 400);
+  const chars  = ['❄', '❅', '❆', '✦', '✧', '❄', '❅'];
+  const isMobile = window.innerWidth <= 768;
+  const count  = isMobile ? 9 : 18;
 
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, delay);
+  for (let i = 0; i < count; i++) {
+    const flake = document.createElement('span');
+    flake.className   = 'snowflake';
+    flake.textContent = chars[Math.floor(Math.random() * chars.length)];
+    flake.setAttribute('aria-hidden', 'true');
 
-      revealObserver.unobserve(entry.target);
-    }
+    const size     = (Math.random() * 1.4 + 0.5).toFixed(1);
+    const left     = (Math.random() * 98).toFixed(1);
+    const duration = (Math.random() * 14 + 9).toFixed(1);
+    const delay    = (Math.random() * 12).toFixed(1);
+    const opacity  = (Math.random() * 0.18 + 0.06).toFixed(2);
+
+    flake.style.cssText = `
+      left: ${left}%;
+      font-size: ${size}rem;
+      animation-duration: ${duration}s;
+      animation-delay: -${delay}s;
+      opacity: ${opacity};
+    `;
+
+    hero.appendChild(flake);
+  }
+}
+
+
+/* =============================================
+   6. EFEITO TYPING NO HERO H2
+   ============================================= */
+function typeWriter(element, startDelay = 700) {
+  if (!element) return;
+
+  const text = element.textContent.trim();
+  element.textContent = '';
+
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+  element.appendChild(cursor);
+
+  let i = 0;
+
+  setTimeout(() => {
+    const timer = setInterval(() => {
+      if (i < text.length) {
+        cursor.insertAdjacentText('beforebegin', text[i]);
+        i++;
+      } else {
+        clearInterval(timer);
+        setTimeout(() => {
+          cursor.style.animation = 'none';
+          cursor.style.opacity   = '0';
+          setTimeout(() => cursor.remove(), 400);
+        }, 2800);
+      }
+    }, 34);
+  }, startDelay);
+}
+
+
+/* =============================================
+   7. ANIMAÇÃO DA LINHA SOB O H1 DO HERO
+   ============================================= */
+function animateHeroLine() {
+  const h1 = document.querySelector('.hero-content h1');
+  if (h1) setTimeout(() => h1.classList.add('linha-animada'), 200);
+}
+
+
+/* =============================================
+   8. CONTADORES ANIMADOS (HERO STATS)
+   ============================================= */
+function animateCounter(el, target, duration = 1800) {
+  const startTime = performance.now();
+
+  function step(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased    = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+
+  requestAnimationFrame(step);
+}
+
+function initCounters() {
+  const counterEls = document.querySelectorAll('.stat-num[data-target]');
+  if (!counterEls.length) return;
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el     = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        animateCounter(el, target);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.6 });
+
+  counterEls.forEach(el => observer.observe(el));
+}
+
+
+/* =============================================
+   9. RIPPLE NOS BOTÕES
+   ============================================= */
+function initRipple() {
+  document.querySelectorAll('.btn, .btn-whatsapp-contato').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x    = e.clientX - rect.left  - size / 2;
+      const y    = e.clientY - rect.top   - size / 2;
+
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.cssText = `width:${size}px; height:${size}px; left:${x}px; top:${y}px;`;
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+    });
   });
-}, {
-  threshold: 0.12,
-  rootMargin: '0px 0px -40px 0px'
-});
-
-revealElements.forEach(el => revealObserver.observe(el));
+}
 
 
-// ===== SMOOTH SCROLL PARA ÂNCORAS =====
+/* =============================================
+   10. TILT 3D NOS CARDS DE PRODUTO (só desktop)
+   ============================================= */
+function initCardTilt() {
+  if ('ontouchstart' in window) return; // skip em dispositivos touch
+
+  document.querySelectorAll('.produto-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.12s ease';
+    });
+
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x    = e.clientX - rect.left;
+      const y    = e.clientY - rect.top;
+      const cx   = rect.width  / 2;
+      const cy   = rect.height / 2;
+      const rotX = ((y - cy) / cy) * -7;
+      const rotY = ((x - cx) / cx) *  7;
+      card.style.transform = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px) scale(1.02)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.4s ease';
+      card.style.transform  = '';
+      setTimeout(() => { card.style.transition = ''; }, 450);
+    });
+  });
+}
+
+
+/* =============================================
+   11. REVEAL AO SCROLL (STAGGERED + DIRECIONAL)
+   ============================================= */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+
+    const el       = entry.target;
+    const siblings = Array.from(el.parentElement.children);
+    const pos      = siblings.indexOf(el);
+    const delay    = Math.min(pos * 75, 420);
+
+    setTimeout(() => el.classList.add('visible'), delay);
+    revealObserver.unobserve(el);
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+
+/* =============================================
+   12. SMOOTH SCROLL PARA ÂNCORAS
+   ============================================= */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
-    const targetId = this.getAttribute('href');
-    if (targetId === '#') return;
-
-    const target = document.querySelector(targetId);
+    const id = this.getAttribute('href');
+    if (id === '#') return;
+    const target = document.querySelector(id);
     if (!target) return;
-
     e.preventDefault();
 
-    const headerHeight = parseInt(getComputedStyle(document.documentElement)
-      .getPropertyValue('--header-height')) || 72;
+    const headerH = parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue('--header-height')
+    ) || 70;
 
-    const targetY = target.getBoundingClientRect().top + window.scrollY - headerHeight;
-
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - headerH, behavior: 'smooth' });
   });
 });
 
 
-// ===== INICIALIZAÇÃO =====
+/* =============================================
+   INICIALIZAÇÃO
+   ============================================= */
 document.addEventListener('DOMContentLoaded', () => {
   onScroll();
+  createSnowflakes();
+  animateHeroLine();
+  initRipple();
+  initCardTilt();
+  initCounters();
+
+  // Typing — só em desktop/tablet para não atrasar em mobile
+  if (window.innerWidth > 600) {
+    typeWriter(document.querySelector('.hero-content h2'), 700);
+  }
 });
