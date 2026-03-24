@@ -37,6 +37,7 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -46,6 +47,9 @@ body {
   background: var(--branco);
   overflow-x: hidden;
   line-height: 1.7;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 img {
@@ -69,11 +73,18 @@ ul {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 
 /* ===== SEÇÕES ===== */
+section {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .section {
   padding: 96px 0;
+  width: 100%;
 }
 
 /* ===== HEADER ===== */
@@ -2071,5 +2082,205 @@ header.scrolled {
   .mobile-nav ul li a {
     padding: 12px 20px;
     font-size: 0.82rem;
+  }
+}
+
+
+/* ===== MOBILE ULTRAPEQUENO (max 320px) — iPhone 5, Galaxy Ace ===== */
+@media (max-width: 320px) {
+  :root {
+    --header-height: 52px;
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+
+  .section {
+    padding: 32px 0;
+  }
+
+  .section-header {
+    margin-bottom: 20px;
+  }
+
+  .section-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .section-header p {
+    font-size: 0.85rem;
+  }
+
+  .header-logo {
+    height: 34px;
+  }
+
+  .brand-name {
+    display: none;
+  }
+
+  .hero-logo {
+    width: 80px;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero h2 {
+    font-size: 0.9rem;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-cta .btn {
+    font-size: 0.75rem;
+    padding: 10px 14px;
+  }
+
+  /* Grid simples para produtos */
+  .produtos-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .produto-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .produto-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .produto-icon i {
+    font-size: 0.9rem;
+  }
+
+  .produto-card h3 {
+    font-size: 0.75rem;
+  }
+
+  .produto-card p {
+    font-size: 0.7rem;
+  }
+
+  /* Sobre */
+  .mvv-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .mvv-card {
+    padding: 12px;
+  }
+
+  .mvv-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+  }
+
+  .mvv-icon i {
+    font-size: 0.9rem;
+  }
+
+  .mvv-card h3 {
+    font-size: 0.8rem;
+  }
+
+  .mvv-card p {
+    font-size: 0.7rem;
+  }
+
+  /* Diferenciais */
+  .diferenciais-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .dif-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .dif-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dif-icon i {
+    font-size: 0.9rem;
+  }
+
+  .dif-card h3 {
+    font-size: 0.8rem;
+  }
+
+  .dif-card p {
+    font-size: 0.7rem;
+  }
+
+  /* Depoimentos */
+  .google-review-box {
+    padding: 20px 12px;
+  }
+
+  .review-text {
+    font-size: 0.85rem;
+  }
+
+  /* Contato */
+  .mapa-container {
+    height: 180px;
+  }
+
+  .contato-grid {
+    gap: 20px;
+  }
+
+  .info-item {
+    gap: 12px;
+  }
+
+  .info-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .footer-col ul li a {
+    font-size: 0.75rem;
+  }
+
+  .footer-bottom p {
+    font-size: 0.7rem;
+  }
+
+  /* WhatsApp flutuante */
+  .whatsapp-float {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+    bottom: 14px;
+    right: 14px;
+  }
+
+  /* Mobile nav */
+  .mobile-nav ul li a {
+    padding: 10px 16px;
+    font-size: 0.78rem;
   }
 }
